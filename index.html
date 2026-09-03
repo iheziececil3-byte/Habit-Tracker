@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple habit tracker application to build daily consistency.">
+  <title>Habit Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <h1>Habit Tracker</h1>
+      <p class="app-description">Track your daily habits and build consistency.</p>
+    </header>
+
+    <section class="habit-input-section">
+      <form id="habit-form" class="habit-form">
+        <input 
+          type="text" 
+          id="habit-input" 
+          class="habit-input" 
+          placeholder="Enter a new habit..." 
+          autocomplete="off"
+        >
+        <button type="submit" id="add-habit-btn" class="add-btn">Add Habit</button>
+      </form>
+    </section>
+
+    <section class="habits-section">
+      <div id="empty-state" class="empty-state">
+        <p>No habits yet. Add your first habit above to get started!</p>
+      </div>
+      <ul id="habit-list" class="habit-list" aria-label="Habits list"></ul>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
