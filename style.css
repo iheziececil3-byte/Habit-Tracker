@@ -106,16 +106,37 @@ body {
   border-color: #bbf7d0;
 }
 
+.habit-main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-right: 0.75rem;
+}
+
 .habit-name {
   font-size: 0.95rem;
   color: #111827;
   word-break: break-word;
-  margin-right: 0.75rem;
 }
 
 .habit-item.completed .habit-name {
   text-decoration: line-through;
   color: #166534;
+}
+
+.habit-streak {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #4b5563;
+  background-color: #f3f4f6;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+
+.habit-item.completed .habit-streak {
+  background-color: #dcfce7;
+  color: #15803d;
 }
 
 .habit-actions {
