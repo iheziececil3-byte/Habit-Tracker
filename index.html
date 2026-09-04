@@ -22,9 +22,12 @@
           class="habit-input" 
           placeholder="Enter a new habit..." 
           autocomplete="off"
+          aria-label="New habit name"
+          aria-describedby="input-error"
         >
         <button type="submit" id="add-habit-btn" class="add-btn">Add Habit</button>
       </form>
+      <p id="input-error" class="input-error" role="alert" aria-live="polite"></p>
     </section>
 
     <section class="habits-section">

@@ -6,6 +6,27 @@ const habitForm = document.getElementById("habit-form");
 const habitInput = document.getElementById("habit-input");
 const habitList = document.getElementById("habit-list");
 const emptyState = document.getElementById("empty-state");
+const inputError = document.getElementById("input-error");
+
+/**
+ * Displays an accessible validation error message.
+ */
+function showError(message) {
+  if (inputError) {
+    inputError.textContent = message;
+  }
+  habitInput.classList.add("has-error");
+}
+
+/**
+ * Clears any active validation error message.
+ */
+function clearError() {
+  if (inputError) {
+    inputError.textContent = "";
+  }
+  habitInput.classList.remove("has-error");
+}
 
 /**
  * Returns a date formatted as YYYY-MM-DD in the user's local calendar time.
@@ -159,6 +180,12 @@ function renderHabits() {
     checkBtn.className = `check-btn${isCompletedToday ? " completed-btn" : ""}`;
     checkBtn.textContent = isCompletedToday ? "Done ✓" : "Check Off";
     checkBtn.disabled = isCompletedToday;
+    checkBtn.setAttribute(
+      "aria-label",
+      isCompletedToday
+        ? `${habit.name} completed for today`
+        : `Check off ${habit.name}`
+    );
 
     checkBtn.addEventListener("click", () => {
       checkOffHabit(habit.id);
@@ -168,6 +195,7 @@ function renderHabits() {
     deleteBtn.type = "button";
     deleteBtn.className = "delete-btn";
     deleteBtn.textContent = "Delete";
+    deleteBtn.setAttribute("aria-label", `Delete ${habit.name}`);
 
     deleteBtn.addEventListener("click", () => {
       deleteHabit(habit.id);
@@ -185,14 +213,28 @@ function renderHabits() {
 
 /**
  * Handles adding a new habit.
+ * Rejects empty/whitespace input and case-insensitive duplicates with user feedback.
  */
 function addHabit(name) {
   const trimmedName = name.trim();
 
   // Reject empty or whitespace-only input
   if (!trimmedName) {
-    return;
+    showError("Please enter a habit name.");
+    return false;
   }
+
+  // Check for case-insensitive duplicate habit name
+  const isDuplicate = habits.some(
+    (h) => h.name.toLowerCase() === trimmedName.toLowerCase()
+  );
+
+  if (isDuplicate) {
+    showError("A habit with this name already exists.");
+    return false;
+  }
+
+  clearError();
 
   const newHabit = {
     id: String(Date.now() + Math.random()),
@@ -203,6 +245,7 @@ function addHabit(name) {
   habits.push(newHabit);
   saveHabits();
   renderHabits();
+  return true;
 }
 
 /**
@@ -236,11 +279,17 @@ function deleteHabit(id) {
 }
 
 // Event Listeners
+habitInput.addEventListener("input", () => {
+  clearError();
+});
+
 habitForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const value = habitInput.value;
-  addHabit(value);
-  habitInput.value = "";
+  const added = addHabit(value);
+  if (added) {
+    habitInput.value = "";
+  }
   habitInput.focus();
 });
 
